@@ -1,0 +1,54 @@
+<mat-dialog-content>
+  <h2 class="mb1">Create New Batch</h2>
+  <div class="batch-form">
+    <mat-form-field class="parts-search">
+      <mat-label>Search Part</mat-label>
+      <input
+        matInput
+        [formControl]="searchControl"
+        (click)="firstSearch()"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete">
+        @for (part of filteredParts; track part.name) {
+          <mat-option [value]="part.name"
+            (click)="selectPart(part)"
+          >
+            <div class="part-option" [ngClass]="{'in-existing-batch': part.batchId !== null}">
+              <span class="name">{{ part.name }}</span>
+              @if(part.batchId){
+                <span class="in-batch">In batch {{part.batchId}}</span>
+              }
+              <span class="price">{{ part.price | currency }}</span>
+            </div>
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <div class="parts-pre-selected">
+      <h3 class="mb1">Selected Parts ({{ selectedParts.length }})</h3>
+      @for(part of selectedParts; track part.id) {
+        <div class="part" [ngClass]="{'in-existing-batch': part.batchId !== null}">
+          <span class="part-name">{{ part.name }}</span>
+          <span class="part-price">{{ part.price | currency }}</span>
+          <button mat-button class="mat-flat-button btn-toggle w1"
+            [ngClass]="{'remove':addedParts.includes(part) || part.batchId !== null}"
+            (click)="togglePart(part)"
+          >
+            {{ addedParts.includes(part) || part.batchId !== null ? 'Remove' : 'Add' }}
+          </button>
+        </div>
+      }@empty {
+        <li>Search and select one or more parts.</li>
+      }
+    </div>
+  </div>
+  <hr/>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+
+  <button mat-button class="mat-flat-button mat-mdc-outlined-button w2" (click)="onCancel()">Cancel</button>
+  <button mat-button class="mat-flat-button mat-primary w2" (click)="onSave()">Save</button>
+</mat-dialog-actions>

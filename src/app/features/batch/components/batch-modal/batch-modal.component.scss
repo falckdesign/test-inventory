@@ -1,0 +1,54 @@
+.parts-search {
+  width: 100%;
+  margin-bottom: 1em;
+}
+.part-option {
+  display: flex;
+  width: 100%;
+  &.in-existing-batch { color: #888; }
+
+  .name {  }
+  .in-batch { display: inline-flex; padding: 0 1em; font-size: .8em; color: #888; }
+  .price { flex: 1; text-align: right; }
+}
+
+.parts-pre-selected {
+  min-height: 200px;
+}
+
+.in-existing-batch {
+  color: red;
+}
+
+
+.part {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: .5em .5em .5em 1em;
+  border-radius: .5em;
+  font-size: 16px;
+  &:nth-child(even) { background-color: rgb(240,240,240); }
+
+  .part-name { flex: 1;}
+  .part-price {
+    padding: .5em 1em;
+    border-radius: .25em;
+    background-color: #FFF;
+    border: solid 1px #ccc;
+  }
+  .btn-toggle {
+    margin-left: 2em;
+    border: none;
+    background-color: lightgreen;
+    color: green;
+    &.remove {
+      background-color: pink;
+      color: darkred;
+    }
+  }
+
+}
+
+.w1 { min-width: 90px;}
+.w2 { min-width: 100px;}

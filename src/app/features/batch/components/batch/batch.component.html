@@ -1,0 +1,32 @@
+<div class="batch">
+  <div class="batch-header">
+    <h3 class="batch-title">Batch {{ batch.id }}</h3>
+  </div>
+
+  <div class="parts">
+    <table>
+      <thead>
+        <tr>
+          <th class="part-name">Part Name</th>
+          <th class="part-price">Price</th>
+          <th class="part-time">Time</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        @for(notice of batch.notices; track notice){
+        <tr>
+          <td class="part-name">{{notice}}</td>
+        </tr>
+        }
+        @for(part of batch.parts; track part.id){
+        <tr [ngClass]="{'removed': part.removedFrom?.length}">
+          <td class="part-name">{{ part.name }}</td>
+          <td class="part-price">{{ part.price | currency }}</td>
+          <td class="part-time">{{ part.updated_at || part.created_at }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

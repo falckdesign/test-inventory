@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="batch-list">
+    <h1 class="mb1">Parts Batchs</h1>
+    <hr class="mb3"/>
+
+    <button mat-button class="mat-flat-button mat-primary" (click)="openBatchModal()">Create Batch <span class="icon ml1">+</span></button>
+
+    <div class="clear mb3"></div>
+
+    <div class="batches">
+      @for(batch of batchs; track batch.id) {
+        <app-batch [batch]="batch" (closeModal)="closeModal()"></app-batch>
+      }@empty {
+        <p>No batches available yet.</p>
+      }
+    </div>
+  </div>
+</div>
