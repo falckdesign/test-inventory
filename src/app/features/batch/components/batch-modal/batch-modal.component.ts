@@ -54,12 +54,10 @@ export class BatchModalComponent {
   }
 
   setupSearch(): void {
-    console.log("+ setupSearch() ");
     this.searchControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((query) => {
-        console.log("+ + QUERY: ",query);
         return this.partService.searchParts(query || '');
       }),
       takeUntil(this.destroyed$)

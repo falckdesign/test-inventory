@@ -234,7 +234,6 @@ export class PartService {
   }
 
   public searchParts(query: string):Observable<Part[]> {
-    console.log("= = = = = = QUERY: ",query);
     if(!query || !query.length){
       return of(this.parts.filter(part => part.status === 'ACTIVE'));
     }
