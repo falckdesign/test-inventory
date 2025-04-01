@@ -4,9 +4,7 @@ import { Batch } from '@/core/models/batch.model';
 import { BatchComponent } from "../batch/batch.component";
 import { BatchModalComponent } from '../batch-modal/batch-modal.component';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import {MatIconModule} from '@angular/material/icon';
-import { DialogRef } from '@angular/cdk/dialog';
-import { MatButtonModule } from '@angular/material/button';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-batch-list',
@@ -16,8 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     BatchComponent,
     MatDialogModule,
-    MatButtonModule,
-    MatIconModule
+    MatButton
   ]
 })
 export class BatchListComponent implements OnInit {
