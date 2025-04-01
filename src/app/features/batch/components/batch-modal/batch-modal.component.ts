@@ -3,13 +3,13 @@ import { Part } from '@/core/models/part.model';
 import { PartService } from '@/features/services/part.service';
 import { BatchService } from '@/features/services/batch.service';
 import { CurrencyPipe, NgClass } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatButtonModule } from '@angular/material/button';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material/input';
-import { debounceTime, distinctUntilChanged, map, Observable, of, ReplaySubject, startWith, switchMap, takeUntil, tap, toArray } from 'rxjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MatFormField, MatLabel } from '@angular/material/form-field'
+import { MatButton } from '@angular/material/button';
+import { MatAutocompleteModule, MatOption } from '@angular/material/autocomplete';
+import { MatInput } from '@angular/material/input';
+import { debounceTime, distinctUntilChanged, Observable, ReplaySubject, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-batch-modal',
@@ -18,13 +18,15 @@ import { debounceTime, distinctUntilChanged, map, Observable, of, ReplaySubject,
   imports: [
     NgClass,
     CurrencyPipe,
-    MatDialogModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
+    MatButton,
+    MatFormField,
+    MatDialogContent,
+    MatInput,
+    MatOption,
+    MatLabel,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    FormsModule
+    MatDialogActions
   ],
   standalone: true
 })
@@ -32,12 +34,12 @@ export class BatchModalComponent {
 
   searchControl = new FormControl('');
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject();
-  private newBatchNotices:string[] = [];
+  public newBatchNotices:string[] = [];
 
   protected availableParts:Part[] = [];
   protected filteredParts:Part[] = [];
-  protected selectedParts:Part[] = []; // listed in modal, but not necessarily added in new batch
-  protected addedParts:Part[] = []; // added for creation of new batch
+  public selectedParts:Part[] = []; // listed in modal, but not necessarily added in new batch
+  public addedParts:Part[] = []; // added for creation of new batch
 
   constructor(
     private partService: PartService,
@@ -55,7 +57,9 @@ export class BatchModalComponent {
     this.searchControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap(query => this.partService.searchParts(query || '')),
+      switchMap((query) => {
+        return this.partService.searchParts(query || '');
+      }),
       takeUntil(this.destroyed$)
     ).subscribe({
       next: result => this.filteredParts = result,
