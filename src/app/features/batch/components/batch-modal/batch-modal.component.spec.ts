@@ -17,7 +17,7 @@ import { MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatOptionModule } from '@angular/material/core';
 import { Batch } from '@/core/models/batch.model';
 
-fdescribe('BatchModalComponent', () => {
+describe('BatchModalComponent', () => {
   let component: BatchModalComponent;
   let fixture: ComponentFixture<BatchModalComponent>;
   let partServiceSpy: jasmine.SpyObj<PartService>;
