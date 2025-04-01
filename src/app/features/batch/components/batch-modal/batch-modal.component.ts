@@ -34,12 +34,12 @@ export class BatchModalComponent {
 
   searchControl = new FormControl('');
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject();
-  private newBatchNotices:string[] = [];
+  public newBatchNotices:string[] = [];
 
   protected availableParts:Part[] = [];
   protected filteredParts:Part[] = [];
-  protected selectedParts:Part[] = []; // listed in modal, but not necessarily added in new batch
-  protected addedParts:Part[] = []; // added for creation of new batch
+  public selectedParts:Part[] = []; // listed in modal, but not necessarily added in new batch
+  public addedParts:Part[] = []; // added for creation of new batch
 
   constructor(
     private partService: PartService,
@@ -54,10 +54,14 @@ export class BatchModalComponent {
   }
 
   setupSearch(): void {
+    console.log("+ setupSearch() ");
     this.searchControl.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap(query => this.partService.searchParts(query || '')),
+      switchMap((query) => {
+        console.log("+ + QUERY: ",query);
+        return this.partService.searchParts(query || '');
+      }),
       takeUntil(this.destroyed$)
     ).subscribe({
       next: result => this.filteredParts = result,
