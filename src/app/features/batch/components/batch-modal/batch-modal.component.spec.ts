@@ -92,7 +92,6 @@ describe('BatchModalComponent', () => {
       component.selectedParts = [partToRemove];
 
       component.togglePart(partToRemove);
-      console.log("+ / + / + / + / + / + / + / + / partToRemove:",partToRemove);
       expect(component.newBatchNotices).toContain(`${partToRemove.name} removed from batch ${batchIdToRemove}`);
       expect(partServiceSpy.updatePart).toHaveBeenCalledWith(
         partToRemove,
