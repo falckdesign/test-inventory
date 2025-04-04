@@ -103,11 +103,7 @@ export class BatchModalComponent {
     this.addedParts = [...this.addedParts, part]; // if it gets here, adds the part
   }
 
-  isPartInAnyBatch(partToCheck:Part):Observable<boolean>{
-    return this.partService.isPartInAnyBatch(partToCheck);
-  }
   onSave(): void {
-    console.log("this.addedIds:",this.addedParts);
     const batchId = Math.floor(Math.random() * (99 - 25 + 1) + 25);
     const newBatch = {
       id: batchId,

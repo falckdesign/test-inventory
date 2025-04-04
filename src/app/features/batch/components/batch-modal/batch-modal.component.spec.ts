@@ -31,7 +31,7 @@ fdescribe('BatchModalComponent', () => {
   ];
 
   beforeEach(() => {
-    partServiceSpy = jasmine.createSpyObj('PartService', ['searchParts', 'updatePart', 'isPartInAnyBatch', 'getAllParts']);
+    partServiceSpy = jasmine.createSpyObj('PartService', ['searchParts', 'updatePart', 'getAllParts']);
     batchServiceSpy = jasmine.createSpyObj('BatchService', ['createBatch', 'removePartFromBatch']);
     dialogRefSpy = jasmine.createSpyObj('MatDialogRef', ['close']);
 
@@ -102,39 +102,21 @@ fdescribe('BatchModalComponent', () => {
 
     it('should remove a part from addedParts if it is already added', () => {
       const partToRemove = mockParts[1]; // This part has batchId: null
-      component.addedParts = [partToRemove];
+      component.addedParts = [mockParts[0],mockParts[1]];
       component.togglePart(partToRemove);
-      expect(component.addedParts).toEqual([]);
+      expect(component.addedParts).toEqual([mockParts[0]]);
       expect(partServiceSpy.updatePart).not.toHaveBeenCalled();
       expect(batchServiceSpy.removePartFromBatch).not.toHaveBeenCalled();
     });
 
     it('should add a part to addedParts if it is not already added and does not have a batchId', () => {
       const partToAdd = { ...mockParts[1], batchId: null }; // Ensure batchId is null for this test
+      component.addedParts = [mockParts[0]];
       component.togglePart(partToAdd);
-      expect(component.addedParts).toEqual([partToAdd]);
+      expect(component.addedParts).toEqual([mockParts[0],partToAdd]);
       expect(partServiceSpy.updatePart).not.toHaveBeenCalled();
       expect(batchServiceSpy.removePartFromBatch).not.toHaveBeenCalled();
     });
-  });
-
-  describe('isPartInAnyBatch', () => {
-    it('should call partService.isPartInAnyBatch and return the expected boolean', () => {
-      const partToCheckInBatch = { ...mockParts[0] };
-      partServiceSpy.isPartInAnyBatch.and.returnValue(of(true));
-      component.isPartInAnyBatch(partToCheckInBatch).subscribe(result => {
-        expect(result).toBeTrue();
-        expect(partServiceSpy.isPartInAnyBatch).toHaveBeenCalledWith(partToCheckInBatch);
-      });
-
-      const partToCheckNotInBatch = { ...mockParts[1], batchId: null };
-      partServiceSpy.isPartInAnyBatch.and.returnValue(of(false));
-      component.isPartInAnyBatch(partToCheckNotInBatch).subscribe(result => {
-        expect(result).toBeFalse();
-        expect(partServiceSpy.isPartInAnyBatch).toHaveBeenCalledWith(partToCheckNotInBatch);
-      });
-    });
-
   });
 
   describe('onSave', () => {

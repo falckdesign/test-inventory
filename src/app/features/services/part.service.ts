@@ -251,14 +251,4 @@ export class PartService {
       this.parts[index] = newPart;
     }
   }
-
-  isPartInAnyBatch(partToCheck:Part):Observable<boolean>{
-    return this.getAllParts().pipe(
-      map((allParts) => {
-        const foundPart = allParts.find((part) => part.id === partToCheck.id);
-        return !!foundPart?.batchId;
-      })
-    );
-  }
-
 }
