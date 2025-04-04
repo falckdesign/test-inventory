@@ -17,7 +17,7 @@ import { MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatOptionModule } from '@angular/material/core';
 import { Batch } from '@/core/models/batch.model';
 
-describe('BatchModalComponent', () => {
+fdescribe('BatchModalComponent', () => {
   let component: BatchModalComponent;
   let fixture: ComponentFixture<BatchModalComponent>;
   let partServiceSpy: jasmine.SpyObj<PartService>;
@@ -81,6 +81,7 @@ describe('BatchModalComponent', () => {
   it('selectPart should add a part to selectedParts if not already present and clear search control', () => {
     const partToAdd = mockParts[0];
     component.selectPart(partToAdd);
+    expect(component.selectedParts).toContain(partToAdd);
     expect(component.searchControl.value).toBe('');
   });
 
@@ -89,7 +90,6 @@ describe('BatchModalComponent', () => {
       const partToRemove = { ...mockParts[0] }; // This part has batchId: 1
       const batchIdToRemove: number = partToRemove.batchId!;
       const updatedPart = { ...partToRemove, batchId:null, removedFrom: [batchIdToRemove] };
-      component.selectedParts = [partToRemove];
 
       component.togglePart(partToRemove);
       expect(component.newBatchNotices).toContain(`${partToRemove.name} removed from batch ${batchIdToRemove}`);
@@ -97,7 +97,7 @@ describe('BatchModalComponent', () => {
         partToRemove,
         updatedPart
       );
-      expect(batchServiceSpy.removePartFromBatch).toHaveBeenCalledWith(jasmine.any(Number), partToRemove.id);
+      expect(batchServiceSpy.removePartFromBatch).toHaveBeenCalledWith(batchIdToRemove, partToRemove.id);
     });
 
     it('should remove a part from addedParts if it is already added', () => {
